@@ -19,19 +19,43 @@ class TodoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Theme.of(context).colorScheme.surface,
-      borderRadius: BorderRadius.circular(14),
+    final size = MediaQuery.of(context).size;
+    final radius = size.width * 0.03;
+    final paddingH = size.width * 0.02;
+    final paddingV = size.height * 0.005;
+
+    return Card(
+      elevation: 4,
+      shadowColor: Colors.black26,
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(radius),
+      ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(radius),
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+          padding: EdgeInsets.symmetric(
+            horizontal: paddingH,
+            vertical: paddingV,
+          ),
           child: ListTile(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(radius),
             ),
-            leading: Checkbox(value: todo.isDone, onChanged: (_) => onToggle()),
+            leading: Transform.scale(
+              scale: 1.4,
+              child: Checkbox(
+                value: todo.isDone,
+                onChanged: (_) => onToggle(),
+                activeColor: Colors.blueAccent,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(2),
+                ),
+                side: const BorderSide(width: 1.5, color: Colors.grey),
+              ),
+            ),
             title: Text(
               todo.title,
               style: TextStyle(
@@ -39,12 +63,26 @@ class TodoTile extends StatelessWidget {
                 color:
                     todo.isDone
                         ? Theme.of(context).colorScheme.onSurfaceVariant
-                        : null,
+                        : Theme.of(context).colorScheme.onSurface,
+                fontSize: size.width * 0.045,
               ),
             ),
-            subtitle: subtitle == null ? null : Text(subtitle!),
+            subtitle:
+                subtitle == null
+                    ? null
+                    : Text(
+                      subtitle!,
+                      style: TextStyle(
+                        fontSize: size.width * 0.035,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
             trailing: IconButton(
-              icon: const Icon(Icons.delete_outline, color: Colors.red),
+              icon: Icon(
+                Icons.delete_outline,
+                color: Colors.redAccent,
+                size: size.width * 0.06,
+              ),
               onPressed: onDelete,
             ),
           ),

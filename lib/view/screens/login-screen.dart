@@ -23,80 +23,105 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final maxW = 420.0; // صندوق وسط الشاشة للريسبونسف
+    final mq = MediaQuery.of(context).size;
+    final h = mq.height;
+    final w = mq.width;
+
     return Scaffold(
       body: Center(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: maxW),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 24,
-              vertical: MediaQuery.of(context).size.height * 0.08,
-            ),
-            child: Card(
-              elevation: 1,
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(height: 16),
-                      Icon(
-                        Icons.verified_rounded,
-                        size: 72,
-                        color: Theme.of(context).colorScheme.primary,
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: w * 0.08),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.verified_rounded,
+                  size: h * 0.1,
+                  color: Colors.blueAccent,
+                ),
+                SizedBox(height: h * 0.03),
+                const Text(
+                  'Welcome Back!',
+                  style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700),
+                ),
+                SizedBox(height: h * 0.015),
+                Text(
+                  'Log in to manage your to-do lists.',
+                  style: TextStyle(color: Colors.grey, fontSize: w * 0.04),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: h * 0.05),
+                TextFormField(
+                  controller: _ctrl,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    prefixIcon: const Icon(Icons.mail_outline),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.grey),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(
+                        color: Colors.blueAccent,
+                        width: 2,
                       ),
-                      const SizedBox(height: 16),
-                      const Text(
-                        'Welcome Back!',
-                        style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.w700,
-                        ),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.red, width: 2),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.red, width: 2),
+                    ),
+                  ),
+                  validator: (v) {
+                    if (v == null || v.trim().isEmpty) {
+                      return 'Email required';
+                    }
+                    if (!v.contains('@')) return 'Invalid email';
+                    return null;
+                  },
+                ),
+
+                SizedBox(height: h * 0.03),
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.blueAccent,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      if (_formKey.currentState?.validate() ?? false) {
+                        context.read<AuthCubit>().login(_ctrl.text.trim());
+                      }
+                    },
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: h * 0.02),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Log in to manage your to-do lists.',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
+                    ),
+                    child: Text(
+                      'Login',
+                      style: TextStyle(
+                        fontSize: w * 0.045,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
                       ),
-                      const SizedBox(height: 24),
-                      TextFormField(
-                        controller: _ctrl,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          labelText: 'Email',
-                          prefixIcon: Icon(Icons.mail_outline),
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (v) {
-                          if (v == null || v.trim().isEmpty)
-                            return 'Email required';
-                          if (!v.contains('@')) return 'Invalid email';
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      SizedBox(
-                        width: double.infinity,
-                        child: FilledButton(
-                          onPressed: () {
-                            if (_formKey.currentState?.validate() ?? false) {
-                              context.read<AuthCubit>().login(
-                                _ctrl.text.trim(),
-                              );
-                            }
-                          },
-                          child: const Text('Login'),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
           ),
         ),
