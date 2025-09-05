@@ -1,16 +1,37 @@
-# new_todo_app
+# 📝 New Todo App
 
-A new Flutter project.
+A simple **To-Do application** for managing daily tasks (add, edit, delete, search) with a clean and user-friendly interface.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 📸 Screenshots
 
-A few resources to get you started if this is your first Flutter project:
+<img src="assets/images/login.jpg" width="250"> 
+<img src="assets/images/todo_screen.jpg" width="250">
+<img src="assets/images/add_todo.jpg" width="250">  
+<img src="assets/images/edit_todo.jpg" width="250"> 
+<img src="assets/images/search.jpg" width="250">
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🎥 Demo Video
+
+[![Watch the video](https://img.youtube.com/vi/bnh19zYko0Y/0.jpg)](https://youtube.com/shorts/bnh19zYko0Y)
+
+---
+
+## 🚀 Features
+
+- User authentication (Login)
+- Add new tasks
+- Edit and delete tasks
+- Search through tasks
+- Simple and clean UI
+
+---
+
+## 🛠️ Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/username/new_todo_app.git
